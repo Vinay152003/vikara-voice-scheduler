@@ -103,6 +103,12 @@ interface AssistantConfig {
   maxDurationSeconds: number;
   backgroundSound: string;
   backchannelingEnabled: boolean;
+  backgroundDenoisingEnabled: boolean;
+  stopSpeakingPlan: {
+    numWords: number;
+    voiceSeconds: number;
+    backoffSeconds: number;
+  };
 }
 
 async function createAssistant() {
@@ -183,10 +189,16 @@ async function createAssistant() {
       model: "nova-3",
       language: "en",
     },
+    stopSpeakingPlan: {
+      numWords: 5,
+      voiceSeconds: 0.4,
+      backoffSeconds: 2,
+    },
     silenceTimeoutSeconds: 120,
     maxDurationSeconds: 600,
     backgroundSound: "office",
-    backchannelingEnabled: true,
+    backchannelingEnabled: false,
+    backgroundDenoisingEnabled: true,
   };
 
   console.log("Creating VAPI assistant...");
