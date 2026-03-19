@@ -51,12 +51,25 @@ export async function createCalendarEvent(
     }
 
     const durationMinutes = input.duration || 30;
-    const startDate = new Date(input.dateTime);
-    const endDate = new Date(startDate.getTime() + durationMinutes * 60 * 1000);
     const timezone = input.timezone || "Asia/Kolkata";
 
+    // Keep the raw dateTime as-is (e.g. "2026-03-20T14:00:00") and let
+    // Google Calendar interpret it in the specified timezone.
+    // This ensures the event appears at the exact time the user requested.
+    const startDateTime = input.dateTime.includes("+") || input.dateTime.includes("Z")
+      ? input.dateTime
+      : input.dateTime; // no offset — Google uses timeZone field
+
+    // Calculate end time by parsing and adding duration
+    const startParts = input.dateTime.replace("Z", "").split(/[T+]/);
+    const startForCalc = new Date(`${startParts[0]}T${startParts[1] || "00:00:00"}`);
+    const endForCalc = new Date(startForCalc.getTime() + durationMinutes * 60 * 1000);
+    const endDateTime = `${endForCalc.getFullYear()}-${String(endForCalc.getMonth() + 1).padStart(2, "0")}-${String(endForCalc.getDate()).padStart(2, "0")}T${String(endForCalc.getHours()).padStart(2, "0")}:${String(endForCalc.getMinutes()).padStart(2, "0")}:${String(endForCalc.getSeconds()).padStart(2, "0")}`;
+
     const summary = input.title || `Meeting with ${input.name}`;
-    const description = `Scheduled by Vikara Voice Assistant\n\nAttendee: ${input.name}`;
+    const description = `Scheduled by Vikara Voice Assistant\n\nAttendee: ${input.name}\nTimezone: ${timezone}`;
+
+    console.log("[Google Calendar] Creating event:", { startDateTime, endDateTime, timezone, summary });
 
     const event = await calendar.events.insert({
       calendarId,
@@ -64,11 +77,11 @@ export async function createCalendarEvent(
         summary,
         description,
         start: {
-          dateTime: startDate.toISOString(),
+          dateTime: startDateTime,
           timeZone: timezone,
         },
         end: {
-          dateTime: endDate.toISOString(),
+          dateTime: endDateTime,
           timeZone: timezone,
         },
         reminders: {
