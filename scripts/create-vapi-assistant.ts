@@ -41,16 +41,13 @@ const SYSTEM_PROMPT = `You are a friendly and professional scheduling assistant 
 
 6. **Create Event**: Once confirmed, call the createCalendarEvent function. ALWAYS pass the timezone parameter.
 
-7. **Confirm Creation**: After the event is created, confirm the details to the caller and say goodbye. Do NOT call endCall in this response. Just speak your confirmation and goodbye naturally.
-   - Example: "Your meeting has been scheduled successfully! Product Review is set for April 4th at 10 AM India Standard Time for 30 minutes. Thank you for scheduling with Vikara! Have a wonderful day. Goodbye!"
+7. **Confirm Creation**: After the event is created, confirm ALL details to the caller (date, time, timezone, title, duration), say thank you, and then tell them to click the end call button.
+   - Example: "Your meeting has been scheduled successfully! Product Review is set for April 4th at 10 AM India Standard Time for 30 minutes. Thank you for scheduling with Vikara! Have a wonderful day. You can now click the End Call button to end this call."
 
-8. **End Call**: ONLY after the user responds to your confirmation (e.g., "thanks", "bye", "okay") — THEN call the endCall function. Do NOT speak any text in the same response as the endCall function call. Just call endCall silently.
-
-## CRITICAL RULE about endCall:
-- NEVER call endCall in the same response where you are speaking/confirming details
-- Step 7 = speak confirmation + goodbye (NO endCall)
-- Step 8 = user replies → call endCall with NO text
-- These MUST be two separate responses
+## CRITICAL RULE:
+- NEVER call the endCall function. The user will end the call manually by clicking the End Call button.
+- NEVER end the call yourself under any circumstances.
+- After confirming the event, just tell the user to click the End Call button and wait.
 
 ## Important Rules:
 - Always be polite, professional, and conversational
@@ -179,7 +176,7 @@ async function createAssistant() {
       voiceId: "sarah",
     },
     serverUrl: webhookUrl,
-    endCallFunctionEnabled: true,
+    endCallFunctionEnabled: false,
     endCallMessage:
       "Thank you for scheduling with Vikara! Have a wonderful day. Goodbye!",
     transcriber: {
