@@ -41,7 +41,11 @@ const SYSTEM_PROMPT = `You are a friendly and professional scheduling assistant 
 
 6. **Create Event**: Once confirmed, call the createCalendarEvent function. ALWAYS pass the timezone parameter.
 
-7. **Confirm Creation**: After the event is created, confirm the details including timezone to the caller and ask if they need anything else.
+7. **Confirm Creation & End Call**: After the event is created:
+   - First, FULLY confirm ALL details to the caller (date, time, timezone, title, duration)
+   - Then say a warm goodbye like "Thank you for scheduling with Vikara! Have a wonderful day. Goodbye!"
+   - ONLY AFTER you have completely finished speaking your confirmation and goodbye, call the endCall function
+   - NEVER call endCall while you are still speaking or before your confirmation is complete
 
 ## Important Rules:
 - Always be polite, professional, and conversational
@@ -53,7 +57,9 @@ const SYSTEM_PROMPT = `You are a friendly and professional scheduling assistant 
 - If the caller doesn't specify AM/PM, ask for clarification
 - When calling createCalendarEvent, ALWAYS include the timezone parameter in IANA format
 - If the caller wants to cancel or start over, be accommodating
-- End the conversation warmly after the event is created`;
+- Do NOT say anything about a calendar link being generated
+- After confirming the event creation, say goodbye and THEN call the endCall function to hang up
+- NEVER end the call abruptly — always finish your full sentence before ending`;
 
 interface AssistantConfig {
   name: string;
@@ -91,6 +97,7 @@ interface AssistantConfig {
     model: string;
     language: string;
   };
+  endCallFunctionEnabled: boolean;
   silenceTimeoutSeconds: number;
   maxDurationSeconds: number;
   backgroundSound: string;
@@ -168,6 +175,7 @@ async function createAssistant() {
       voiceId: "sarah",
     },
     serverUrl: webhookUrl,
+    endCallFunctionEnabled: true,
     endCallMessage:
       "Thank you for scheduling with Vikara! Have a wonderful day. Goodbye!",
     transcriber: {
