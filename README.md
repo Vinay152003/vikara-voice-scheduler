@@ -9,7 +9,7 @@ A production-grade, real-time voice assistant that schedules meetings and create
 
 ## Live Demo
 
-**Deployed URL:** `<your-vercel-url>.vercel.app`
+**Deployed URL:** [https://vikara-voice-scheduler.vercel.app](https://vikara-voice-scheduler.vercel.app)
 
 ### How to Test
 
