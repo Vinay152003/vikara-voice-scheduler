@@ -39,24 +39,21 @@ export default function VoiceAgent() {
       setCallStatus("idle");
     });
 
-    const END_CALL_PHRASES = [
-      "end call",
-      "goodbye",
-      "good bye",
-      "bye bye",
-      "bye",
-      "see you",
-      "see ya",
-      "that's all",
-      "that is all",
-      "hang up",
-      "end the call",
-      "stop the call",
-      "disconnect",
-      "i'm done",
-      "im done",
-      "no thanks bye",
-      "nothing else",
+    // Phrases that indicate the assistant has confirmed event creation
+    const EVENT_CONFIRMED_PHRASES = [
+      "event has been created",
+      "event is created",
+      "meeting has been created",
+      "meeting is created",
+      "has been scheduled",
+      "is scheduled",
+      "successfully created",
+      "successfully scheduled",
+      "been booked",
+      "is booked",
+      "have a wonderful day",
+      "have a great day",
+      "have a nice day",
     ];
 
     vapi.on("message", (message) => {
@@ -72,18 +69,17 @@ export default function VoiceAgent() {
             },
           ]);
 
-          // Auto-end call when user says a goodbye phrase
-          if (msg.role === "user") {
-            const text = msg.transcript.toLowerCase().trim();
-            const shouldEnd = END_CALL_PHRASES.some(
-              (phrase) => text === phrase || text.endsWith(phrase) || text.startsWith(phrase)
+          // Auto-end call after assistant confirms the event was created
+          if (msg.role === "assistant") {
+            const text = msg.transcript.toLowerCase();
+            const eventConfirmed = EVENT_CONFIRMED_PHRASES.some(
+              (phrase) => text.includes(phrase)
             );
-            if (shouldEnd) {
-              console.log("[VAPI] Detected end-call phrase:", text);
-              // Small delay to let the assistant say goodbye first
+            if (eventConfirmed) {
+              console.log("[VAPI] Event confirmed by assistant, ending call in 4s");
               setTimeout(() => {
                 vapi.stop();
-              }, 3000);
+              }, 4000);
             }
           }
         }

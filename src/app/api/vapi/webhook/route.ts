@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
           results.push({
             toolCallId: toolCall.id,
             result: result.success
-              ? `Event created successfully! Title: "${result.summary}". Scheduled from ${result.startTime} to ${result.endTime}. Calendar link: ${result.eventLink}`
+              ? `Event created successfully! Title: "${result.summary}". Scheduled from ${result.startTime} to ${result.endTime}.`
               : `Failed to create event: ${result.error}`,
           });
         }
