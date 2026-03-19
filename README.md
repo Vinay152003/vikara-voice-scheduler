@@ -11,7 +11,7 @@ A production-grade, real-time voice assistant that schedules meetings and create
 
 **Deployed URL:** [https://vikara-voice-scheduler.vercel.app](https://vikara-voice-scheduler.vercel.app)
 
-**Google Calender URL:** [Calender Link](https://calendar.google.com/calendar/u/1?cid=NTdiODYxMzZiOGYxYTcxMTAyNGYxMDQwOGFlMjZkYWJkYjcwN2RjZTZkOTJiOTE0M2U2NWQ1MDI0MjhjMDRmYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t)
+**Google Calendar:** [📅 View Vikara Scheduling Calendar](https://calendar.google.com/calendar/u/1?cid=NTdiODYxMzZiOGYxYTcxMTAyNGYxMDQwOGFlMjZkYWJkYjcwN2RjZTZkOTJiOTE0M2U2NWQ1MDI0MjhjMDRmYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t)
 
 ### How to Test
 
@@ -135,7 +135,7 @@ vikara-voice-scheduler/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/vikara-voice-scheduler.git
+   git clone https://github.com/Vinay152003/vikara-voice-scheduler.git
    cd vikara-voice-scheduler
    ```
 
