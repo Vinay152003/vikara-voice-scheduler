@@ -11,6 +11,8 @@ A production-grade, real-time voice assistant that schedules meetings and create
 
 **Deployed URL:** [https://vikara-voice-scheduler.vercel.app](https://vikara-voice-scheduler.vercel.app)
 
+** Google Calender URL** [Calender Link](https://calendar.google.com/calendar/u/1?cid=NTdiODYxMzZiOGYxYTcxMTAyNGYxMDQwOGFlMjZkYWJkYjcwN2RjZTZkOTJiOTE0M2U2NWQ1MDI0MjhjMDRmYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t)
+
 ### How to Test
 
 1. Open the deployed URL in a browser (Chrome recommended)
