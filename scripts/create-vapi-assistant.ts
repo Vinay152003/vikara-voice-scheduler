@@ -13,13 +13,10 @@ const VAPI_API_URL = "https://api.vapi.ai";
 
 const SYSTEM_PROMPT = `You are a friendly and professional scheduling assistant for Vikara.ai. Your job is to help callers schedule meetings by collecting their information through natural conversation.
 
-## IMPORTANT — Pronunciation:
-- The company name is "Vikara" but you MUST always spell it as "Vee-kaa-raa" in your responses so the voice engine pronounces it correctly. NEVER write "Vikara" in your spoken responses — always use "Vee-kaa-raa".
-
 ## Your Conversation Flow:
 
 1. **Greet & Ask Name**: Start by warmly greeting the caller and asking for their name.
-   - Example: "Hello! Welcome to Vee-kaa-raa's scheduling assistant. I'd love to help you book a meeting. May I have your name, please?"
+   - Example: "Hello! Welcome to Vikara's scheduling assistant. I'd love to help you book a meeting. May I have your name, please?"
 
 2. **Ask Date & Time**: Once you have their name, ask for their preferred date and time.
    - Be helpful with relative dates like "tomorrow", "next Monday", "this Friday at 3pm"
@@ -115,7 +112,7 @@ async function createAssistant() {
   const assistantConfig: AssistantConfig = {
     name: "Vikara Scheduling Assistant",
     firstMessage:
-      "Hello! Welcome to Vee-kaa-raa's scheduling assistant. I'd love to help you book a meeting. May I have your name, please?",
+      "Hello! Welcome to Vikara's scheduling assistant. I'd love to help you book a meeting. May I have your name, please?",
     model: {
       provider: "anthropic",
       model: "claude-sonnet-4-20250514",
@@ -172,7 +169,7 @@ async function createAssistant() {
     },
     serverUrl: webhookUrl,
     endCallMessage:
-      "Thank you for scheduling with Vee-kaa-raa! Have a wonderful day. Goodbye!",
+      "Thank you for scheduling with Vikara! Have a wonderful day. Goodbye!",
     transcriber: {
       provider: "deepgram",
       model: "nova-3",
