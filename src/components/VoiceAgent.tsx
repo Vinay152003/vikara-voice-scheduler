@@ -39,23 +39,6 @@ export default function VoiceAgent() {
       setCallStatus("idle");
     });
 
-    // Phrases that indicate the assistant has confirmed event creation
-    const EVENT_CONFIRMED_PHRASES = [
-      "event has been created",
-      "event is created",
-      "meeting has been created",
-      "meeting is created",
-      "has been scheduled",
-      "is scheduled",
-      "successfully created",
-      "successfully scheduled",
-      "been booked",
-      "is booked",
-      "have a wonderful day",
-      "have a great day",
-      "have a nice day",
-    ];
-
     vapi.on("message", (message) => {
       if (message.type === "transcript") {
         const msg = message as { type: string; role: string; transcript: string; transcriptType: string };
@@ -68,20 +51,6 @@ export default function VoiceAgent() {
               timestamp: new Date(),
             },
           ]);
-
-          // Auto-end call after assistant confirms the event was created
-          if (msg.role === "assistant") {
-            const text = msg.transcript.toLowerCase();
-            const eventConfirmed = EVENT_CONFIRMED_PHRASES.some(
-              (phrase) => text.includes(phrase)
-            );
-            if (eventConfirmed) {
-              console.log("[VAPI] Event confirmed by assistant, ending call in 4s");
-              setTimeout(() => {
-                vapi.stop();
-              }, 4000);
-            }
-          }
         }
       }
     });
