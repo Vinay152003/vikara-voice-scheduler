@@ -39,6 +39,26 @@ export default function VoiceAgent() {
       setCallStatus("idle");
     });
 
+    const END_CALL_PHRASES = [
+      "end call",
+      "goodbye",
+      "good bye",
+      "bye bye",
+      "bye",
+      "see you",
+      "see ya",
+      "that's all",
+      "that is all",
+      "hang up",
+      "end the call",
+      "stop the call",
+      "disconnect",
+      "i'm done",
+      "im done",
+      "no thanks bye",
+      "nothing else",
+    ];
+
     vapi.on("message", (message) => {
       if (message.type === "transcript") {
         const msg = message as { type: string; role: string; transcript: string; transcriptType: string };
@@ -51,6 +71,21 @@ export default function VoiceAgent() {
               timestamp: new Date(),
             },
           ]);
+
+          // Auto-end call when user says a goodbye phrase
+          if (msg.role === "user") {
+            const text = msg.transcript.toLowerCase().trim();
+            const shouldEnd = END_CALL_PHRASES.some(
+              (phrase) => text === phrase || text.endsWith(phrase) || text.startsWith(phrase)
+            );
+            if (shouldEnd) {
+              console.log("[VAPI] Detected end-call phrase:", text);
+              // Small delay to let the assistant say goodbye first
+              setTimeout(() => {
+                vapi.stop();
+              }, 3000);
+            }
+          }
         }
       }
     });
