@@ -92,7 +92,7 @@ interface AssistantConfig {
     voiceId: string;
   };
   serverUrl?: string;
-  endCallMessage: string;
+  endCallMessage?: string;
   transcriber: {
     provider: string;
     model: string;
@@ -177,15 +177,14 @@ async function createAssistant() {
     },
     serverUrl: webhookUrl,
     endCallFunctionEnabled: false,
-    endCallMessage:
-      "Thank you for scheduling with Vikara! Have a wonderful day. Goodbye!",
+    endCallMessage: "",
     transcriber: {
       provider: "deepgram",
       model: "nova-3",
       language: "en",
     },
-    silenceTimeoutSeconds: 30,
-    maxDurationSeconds: 300,
+    silenceTimeoutSeconds: 120,
+    maxDurationSeconds: 600,
     backgroundSound: "office",
     backchannelingEnabled: true,
   };
